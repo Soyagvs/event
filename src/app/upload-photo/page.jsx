@@ -3,6 +3,8 @@
 
 import { useRouter } from 'next/navigation';
 
+const ws = new WebSocket('ws://localhost:8080'); // URL del servidor WebSocket
+
 export default function UploadPhotoPage() {
     const router = useRouter();
 
@@ -12,8 +14,7 @@ export default function UploadPhotoPage() {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const imageUrl = reader.result;
-                localStorage.setItem('currentImage', imageUrl); // Guardar en localStorage
-                window.dispatchEvent(new Event('storage')); // Notificar a otras pestañas
+                ws.send(imageUrl); // Enviar imagen a través del WebSocket
                 router.push('/view-photo');
             };
             reader.readAsDataURL(file);

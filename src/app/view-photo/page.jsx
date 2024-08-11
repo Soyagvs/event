@@ -3,30 +3,26 @@
 
 import { useEffect, useState } from 'react';
 
+const ws = new WebSocket('ws://localhost:8080'); // URL del servidor WebSocket
+
 export default function ViewPhotoPage() {
     const [image, setImage] = useState(null);
 
     useEffect(() => {
-        const updateImage = () => {
-            const storedImage = localStorage.getItem('currentImage');
-            setImage(storedImage);
+        const handleMessage = (event) => {
+            setImage(event.data); // Actualizar imagen cuando se recibe un mensaje
         };
 
-        // Actualizar imagen cuando se monta el componente
-        updateImage();
+        ws.addEventListener('message', handleMessage);
 
-        // Escuchar eventos de almacenamiento
-        window.addEventListener('storage', updateImage);
-
-        // Limpiar el evento cuando el componente se desmonte
         return () => {
-            window.removeEventListener('storage', updateImage);
+            ws.removeEventListener('message', handleMessage);
         };
     }, []);
 
     return (
         <main className="flex flex-col justify-center items-center min-h-screen">
-            <p>Aquí se visualizará tu imagen</p>
+            <p>Aquí se visualizará la imagen subida</p>
             <div className="w-[900px] h-[800px] bg-slate-300 rounded-lg mt-5 flex justify-center items-center">
                 {image ? (
                     <img src={image} alt="Uploaded" className="w-full h-full object-cover" />
