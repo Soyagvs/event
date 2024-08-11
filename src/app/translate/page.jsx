@@ -13,12 +13,7 @@ export default function TranslatePage() {
         <main className="min-h-screen flex justify-center items-center">
             <div className="flex flex-col justify-center items-center gap-3">
                 <h1 className="text-center text-lg">Elige qué herramienta quieres utilizar</h1>
-                <button
-                    className="flex justify-center items-center w-32 h-16 bg-purple-300 rounded-lg text-black"
-                    onClick={() => handleButtonClick('/take-photo')}
-                >
-                    Sacar foto
-                </button>
+                
                 <button
                     className="flex justify-center items-center w-32 h-16 bg-green-300 rounded-lg text-black"
                     onClick={() => handleButtonClick('/upload-photo')}

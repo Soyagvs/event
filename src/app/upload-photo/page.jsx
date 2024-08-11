@@ -1,23 +1,32 @@
 // src/app/upload-photo/page.jsx
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-const ws = new WebSocket('ws://localhost:8080'); // URL del servidor WebSocket
-
 export default function UploadPhotoPage() {
+    const [image, setImage] = useState(null);
     const router = useRouter();
 
-    const handleUpload = (event) => {
+    const handleUpload = async (event) => {
         const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const imageUrl = reader.result;
-                ws.send(imageUrl); // Enviar imagen a través del WebSocket
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                const response = await fetch('http://localhost:8080/uploads', {
+                    method: 'POST',
+                    body: formData,
+                });
+                const data = await response.json();
+                setImage(data.imageUrl);
+                // Notificar a otras pestañas
+                window.dispatchEvent(new Event('storage'));
                 router.push('/view-photo');
-            };
-            reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
         }
     };
 
