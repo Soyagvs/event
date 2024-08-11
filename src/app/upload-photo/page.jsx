@@ -1,10 +1,9 @@
+// src/app/upload-photo/page.jsx
 'use client';
 
-import { useImage } from '../../context/ImageContext';
 import { useRouter } from 'next/navigation';
 
 export default function UploadPhotoPage() {
-    const { setImage } = useImage();
     const router = useRouter();
 
     const handleUpload = (event) => {
@@ -13,7 +12,12 @@ export default function UploadPhotoPage() {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const imageUrl = reader.result;
-                setImage(imageUrl);
+                // Eliminar imagen anterior si existe
+                localStorage.removeItem('currentImage');
+                // Guardar nueva imagen
+                localStorage.setItem('currentImage', imageUrl);
+                // Notificar a otras pestañas que se ha actualizado la imagen
+                window.dispatchEvent(new Event('storage'));
                 router.push('/view-photo');
             };
             reader.readAsDataURL(file);

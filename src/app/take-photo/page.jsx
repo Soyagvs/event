@@ -1,10 +1,9 @@
+// src/app/take-photo/page.jsx
 'use client';
 
-import { useImage } from '../../context/ImageContext';
 import { useRouter } from 'next/navigation';
 
 export default function TakePhotoPage() {
-    const { setImage } = useImage();
     const router = useRouter();
 
     const handleCapture = (event) => {
@@ -13,7 +12,9 @@ export default function TakePhotoPage() {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const imageUrl = reader.result;
-                setImage(imageUrl); // Este debe ser un método disponible desde el contexto
+                localStorage.setItem('currentImage', imageUrl); // Guardar en localStorage
+                // Notificar a otras pestañas que se ha actualizado la imagen
+                window.dispatchEvent(new Event('storage'));
                 router.push('/view-photo');
             };
             reader.readAsDataURL(file);
