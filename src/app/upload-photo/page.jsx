@@ -15,10 +15,15 @@ export default function UploadPhotoPage() {
             formData.append('image', file);
 
             try {
-                const response = await fetch('http://localhost:8080/uploads', {
+                const response = await fetch('/api/upload', {
                     method: 'POST',
                     body: formData,
                 });
+
+                if (!response.ok) {
+                    throw new Error('Error uploading image');
+                }
+
                 const data = await response.json();
                 setImage(data.imageUrl);
                 // Notificar a otras pestañas

@@ -20,6 +20,12 @@ export default function TranslatePage() {
                 >
                     Subir foto
                 </button>
+                <button
+                    className="flex justify-center items-center w-32 h-16 bg-blue-300 rounded-lg text-black"
+                    onClick={() => handleButtonClick('/take-photo')}
+                >
+                    Tomar foto
+                </button>
             </div>
         </main>
     );
