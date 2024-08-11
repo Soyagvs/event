@@ -12,11 +12,9 @@ export default function UploadPhotoPage() {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const imageUrl = reader.result;
-                // Eliminar imagen anterior si existe
-                localStorage.removeItem('currentImage');
-                // Guardar nueva imagen
+                // Guardar la nueva imagen en localStorage
                 localStorage.setItem('currentImage', imageUrl);
-                // Notificar a otras pestañas que se ha actualizado la imagen
+                // Notificar a otras pestañas sobre el cambio
                 window.dispatchEvent(new Event('storage'));
                 router.push('/view-photo');
             };

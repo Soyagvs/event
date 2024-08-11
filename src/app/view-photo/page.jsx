@@ -2,7 +2,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 
 export default function ViewPhotoPage() {
     const [image, setImage] = useState(null);
@@ -27,10 +26,10 @@ export default function ViewPhotoPage() {
 
     return (
         <main className="flex flex-col justify-center items-center min-h-screen">
-            <p>Aquí se visualizará tu imagen</p>
+            <p>Aquí se visualizará la imagen subida</p>
             <div className="w-[900px] h-[800px] bg-slate-300 rounded-lg mt-5 flex justify-center items-center">
                 {image ? (
-                    <Image src={image} alt="Uploaded" className="w-full h-full object-cover" width={100} height={100} loading='lazy' decoding='async'/>
+                    <img src={image} alt="Uploaded" className="w-full h-full object-cover" />
                 ) : (
                     <p>No image uploaded yet.</p>
                 )}
