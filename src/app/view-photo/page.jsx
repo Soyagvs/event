@@ -12,21 +12,21 @@ export default function ViewPhotoPage() {
             setImage(storedImage);
         };
 
-        // Obtener la imagen inicial
+        // Actualizar imagen cuando se monta el componente
         updateImage();
 
-        // Configurar el listener para cambios en localStorage
+        // Escuchar eventos de almacenamiento
         window.addEventListener('storage', updateImage);
 
-        // Limpiar el listener al desmontar el componente
+        // Limpiar el evento cuando el componente se desmonte
         return () => {
             window.removeEventListener('storage', updateImage);
         };
-    }, []); // Solo se ejecuta una vez al montar el componente
+    }, []);
 
     return (
         <main className="flex flex-col justify-center items-center min-h-screen">
-            <p>Aquí se visualizará la imagen subida</p>
+            <p>Aquí se visualizará tu imagen</p>
             <div className="w-[900px] h-[800px] bg-slate-300 rounded-lg mt-5 flex justify-center items-center">
                 {image ? (
                     <img src={image} alt="Uploaded" className="w-full h-full object-cover" />

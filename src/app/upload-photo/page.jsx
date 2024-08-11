@@ -12,10 +12,8 @@ export default function UploadPhotoPage() {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const imageUrl = reader.result;
-                // Guardar la nueva imagen en localStorage
-                localStorage.setItem('currentImage', imageUrl);
-                // Notificar a otras pestañas sobre el cambio
-                window.dispatchEvent(new Event('storage'));
+                localStorage.setItem('currentImage', imageUrl); // Guardar en localStorage
+                window.dispatchEvent(new Event('storage')); // Notificar a otras pestañas
                 router.push('/view-photo');
             };
             reader.readAsDataURL(file);
