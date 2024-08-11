@@ -3,11 +3,15 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
-import { initializeApp, applicationDefault } from 'firebase-admin/app';
+import { initializeApp } from 'firebase-admin/app';
 import { getStorage as getAdminStorage } from 'firebase-admin/storage';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
-const app = initializeApp();
+const app = initializeApp({
+    credential: applicationDefault(),
+    storageBucket: 'your-project-id.appspot.com'  // Reemplaza con tu bucket de Firebase
+});
+
 const storage = getAdminStorage(app);
 const db = getFirestore(app);
 
@@ -36,8 +40,8 @@ export default async function handler(req, res) {
             try {
                 const fileBuffer = fs.readFileSync(filePath);
                 await uploadBytes(storageRef, fileBuffer);
-
                 const downloadURL = await getDownloadURL(storageRef);
+
                 await setDoc(doc(db, 'images', 'latest'), { url: downloadURL });
 
                 res.status(200).json({ imageUrl: downloadURL });
